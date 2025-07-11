@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Berfin'i Seviyorum</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #1a1a1a, #000000);
+      color: white;
+      font-family: 'Dancing Script', cursive;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .hearts, .stars {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .heart, .star {
+      position: absolute;
+      font-size: 16px;
+      animation: float 10s infinite ease-in-out;
+      opacity: 0.1;
+    }
+
+    .star {
+      color: white;
+      font-size: 2px;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 0.2; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    .gallery {
+      z-index: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: 40px 10px 80px;
+      align-items: center;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      flex-direction: row;
+    }
+
+    .row img {
+      width: 45vw;
+      max-width: 300px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+    }
+
+    .row img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.5);
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(31, 31, 31, 0.95);
+      color: #fff;
+      padding: 20px 30px;
+      border-radius: 16px;
+      display: none;
+      z-index: 10;
+      box-shadow: 0 0 20px #ff69b4;
+      font-size: 20px;
+      max-width: 90%;
+    }
+
+    .final-photo {
+      margin-top: 40px;
+      padding: 0 10px;
+    }
+
+    .final-photo img {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(255, 182, 193, 0.3);
+    }
+
+    .final-photo-text {
+      font-size: 38px;
+      font-weight: bold;
+      margin: 20px 0 60px;
+      color: #ffb6c1;
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    audio {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .row img {
+        width: 80vw;
+      }
+
+      .final-photo-text {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Kalpler ve Yıldızlar -->
+<div class="hearts" id="hearts"></div>
+<div class="stars" id="stars"></div>
+
+<!-- Galeri -->
+<div class="gallery">
+<div class="row">
+  <img src="photo_1.jpg" alt="Foto 1" onclick="showPopup('Berfin’i seviyorum çünkü onun adı bile yeter.')">
+  <img src="photo_2.jpg" alt="Foto 2" onclick="showPopup('Berfin’i seviyorum çünkü bakışı yetiyor.')">
+</div>
+<div class="row">
+  <img src="photo_3.jpg" alt="Foto 3" onclick="showPopup('Berfin’i seviyorum çünkü onunla her an özel.')">
+  <img src="photo_4.jpg" alt="Foto 4" onclick="showPopup('Berfin’i seviyorum çünkü onun yanındayken zaman duruyor.')">
+</div>
+<div class="row">
+  <img src="photo_5.jpg" alt="Foto 5" onclick="showPopup('Berfin’i seviyorum çünkü yanında her şey güzel.')">
+  <img src="photo_6.jpg" alt="Foto 6" onclick="showPopup('Berfin’i seviyorum çünkü bana iyi geliyor.')">
+</div>
+<div class="row">
+  <img src="photo_7.jpg" alt="Foto 7" onclick="showPopup('Berfin’i seviyorum çünkü onunla her şey anlamlı.')">
+  <img src="photo_8.jpg" alt="Foto 8" onclick="showPopup('Berfin’i seviyorum çünkü gülüşü içimi ısıtıyor.')">
+  <img src="photo_9.jpg" alt="Foto 9" onclick="showPopup('Berfin’i seviyorum çünkü sadece o “Berfin”.')">
+</div>
+
+</div>
+
+<div class="popup" id="popup"></div>
+
+<div class="final-photo">
+  <img src="final_photo.jpg" alt="Berfin Final">
+  <div class="final-photo-text">Berfin'i seviyorum 💖</div>
+</div>
+
+<!-- MP3 müzik -->
+<audio id="bg-music" autoplay loop controls>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  function showPopup(message) {
+    const popup = document.getElementById('popup');
+    popup.innerText = message;
+    popup.style.display = 'block';
+    setTimeout(() => {
+      popup.style.display = 'none';
+    }, 3000);
+  }
+
+  // Kalpler
+  const heartsContainer = document.getElementById('hearts');
+  for (let i = 0; i < 60; i++) {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerText = '❤️';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.top = Math.random() * 100 + 'vh';
+    heart.style.fontSize = (Math.random() * 10 + 10) + 'px';
+    heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+    heartsContainer.appendChild(heart);
+  }
+
+  // Yıldızlar
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 200; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.innerText = '•';
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.top = Math.random() * 100 + 'vh';
+    star.style.animationDuration = (Math.random() * 8 + 4) + 's';
+    starsContainer.appendChild(star);
+  }
+</script>
+
+</body>
+</html>
